@@ -1,0 +1,32 @@
+using System;
+using Core.Behaviors.States.Movement;
+using Core.Services.States;
+using UnityEngine;
+
+namespace Data.ScriptableObjects.States.Movement
+{
+    [CreateAssetMenu(fileName = "EmptyIdle", 
+    menuName = "ScriptableObjects/States/Movement/EmptyIdle")]
+    /// <summary>
+    /// ScriptableObject-конфигурация для состояния пустого простоя (EmptyIdle).
+    /// Создаёт конфигурационное состояние `EmptyIdleState` на основе несовместимых типов.
+    /// </summary>
+    public class EmptyIdleBehaviorSO : BehaviorSO<SimpleIdle>
+    {
+        /// <param name="dependencies">Контекстные зависимости, если требуются.</param>
+        /// <returns>Экземпляр <see cref="IState"/> представляющий конфигурацию пустого простоя.</returns>
+        public override IState CreateConfigState(params object[] dependencies)
+        {
+            return new SimpleIdle(GetIncompatibleTypes());
+        }
+
+        /// <summary>
+        /// Возвращает базовый тип поведения, с которым совместимо данное ScriptableObject.
+        /// </summary>
+        /// <returns>Тип базового поведения — <see cref="BaseIdle"/>.</returns>
+        public override Type GetBaseBehaviorType()
+        {
+            return typeof(BaseIdle);
+        }
+    }
+}

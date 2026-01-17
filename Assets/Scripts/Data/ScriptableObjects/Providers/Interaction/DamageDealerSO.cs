@@ -1,0 +1,26 @@
+using Core.Behaviors.Interaction;
+using Core.Providers;
+using UnityEngine;
+
+namespace Data.ScriptableObjects.Providers.Interaction
+{
+    [CreateAssetMenu(fileName = "DamageDealer",
+      menuName = "ScriptableObjects/Providers/Interactions/DamageDealer")]
+    public class DamageDealerSO : BaseProviderSO
+    {
+        [SerializeField, Tooltip("Effect radius for the damage dealer.")]
+        private float radius;
+
+        [SerializeField, Tooltip("Damage amount dealt by this dealer.")]
+        private int damage;
+
+        [SerializeField, Tooltip("Maximum distance at which this attack can hit.")]
+        private float distance;
+
+        /// <summary>Создаёт провайдер `DamageDealer` с заданными параметрами.</summary>
+        public override IProvider CreateProvider(params object[] _)
+        {
+            return new DamageDealer(damage, distance, radius);
+        }
+    }
+}

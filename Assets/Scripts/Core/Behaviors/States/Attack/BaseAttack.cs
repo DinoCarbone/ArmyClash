@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using Core.Providers;
+using Core.Services.States;
+using Zenject;
+
+namespace Core.Behaviors.States.Attack
+{
+    public class BaseAttack : BaseIncompatible
+    {
+        public BaseAttack(List<Type> incompatibleStates) : base(incompatibleStates)
+        {
+        }
+    }
+    /// <summary>
+    /// Базовая реализация поведения атаки с обработкой входа/выхода.
+    /// </summary>
+    public class DefautAttack : BaseAttack, IEnterState, IExitState
+    {
+        private IAttackProvider attackProvider;
+
+        public DefautAttack(List<Type> incompatibleStates) : base(incompatibleStates)
+        {
+        }
+
+        [Inject]
+        public void Construct(IAttackProvider attackProvider)
+        {
+            this.attackProvider = attackProvider;
+        }
+        public bool CanExit { get; private set; }
+        public bool CanEnter => attackProvider.IsAttack;
+
+        public event Action OnExit;
+        public event Action OnEnter;
+
+        public void Enter()
+        {
+            CanExit = false;
+            OnEnter?.Invoke();
+        }
+        public void Exit()
+        {
+            CanExit = false;
+            OnExit?.Invoke();
+        }
+    }
+}
