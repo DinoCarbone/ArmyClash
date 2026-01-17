@@ -1,4 +1,5 @@
 using Core.Providers;
+using Data.Dto;
 using UnityEngine;
 
 namespace Core.Behaviors.Interaction

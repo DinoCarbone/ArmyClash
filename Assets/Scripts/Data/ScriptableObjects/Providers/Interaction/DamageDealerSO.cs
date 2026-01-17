@@ -20,7 +20,7 @@ namespace Data.ScriptableObjects.Providers.Interaction
         /// <summary>Создаёт провайдер `DamageDealer` с заданными параметрами.</summary>
         public override IProvider CreateProvider(params object[] _)
         {
-            return new DamageDealer(damage, distance, radius);
+            return new DamageService(damage, distance, radius);
         }
     }
 }

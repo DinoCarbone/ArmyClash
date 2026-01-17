@@ -1,17 +1,14 @@
-using Core.Behaviors.Interaction;
-
 namespace Data.Dto
 {
-    public class DamageData : IEvent
+    public class DamageData : IDamageEvent
     {
-        /// <summary>Количество урона, передаваемое в событии взаимодействия.</summary>
-        public readonly int Damage;
+        private readonly int damage;
 
-        /// <summary>Создаёт событие урона с указанной величиной.</summary>
-        /// <param name="damage">Величина урона.</param>
+        public int Damage => damage;
+
         public DamageData(int damage)
         {
-            Damage = damage;
+            this.damage = damage;
         }
     }
 }
