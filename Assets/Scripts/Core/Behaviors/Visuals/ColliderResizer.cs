@@ -9,15 +9,33 @@ namespace Core.Behaviors.Visuals
     public class ColliderResizer : IInternalEventReceiver, IProvider
     {
         private readonly Action<Vector3> resizeAction;
+        private readonly Action<float> scaleAction;
         private readonly float originalLocalBottomY;
+        private readonly Component colliderComponent; // Добавляем ссылку на компонент
 
         public ColliderResizer(Component colliderComponent)
         {
             if (colliderComponent == null) throw new ArgumentNullException(nameof(colliderComponent));
 
+            this.colliderComponent = colliderComponent; // Сохраняем ссылку
             originalLocalBottomY = CalculateLocalBottomY(colliderComponent);
 
             resizeAction = CreateResizeAction(colliderComponent);
+            scaleAction = CreateScaleAction(colliderComponent);
+        }
+
+        public void ReceiveEvent(IEvent @event)
+        {
+            if (@event is IColladerChangeData changedEvent)
+            {
+                resizeAction?.Invoke(changedEvent.Size);
+            }
+
+            if (@event is IScaleChandeData scaleChandeData)
+            {
+                Debug.Log($"New scale collider: {scaleChandeData.Scale}");
+                scaleAction?.Invoke(scaleChandeData.Scale);
+            }
         }
 
         private float CalculateLocalBottomY(Component component)
@@ -31,11 +49,19 @@ namespace Core.Behaviors.Visuals
                 _ => 0
             };
         }
-        // BoxCollider - X меняет ширину, Y меняет высоту (фиксирует низ), Z меняет глубину
-        // SphereCollider - X меняет диаметр (фиксирует низ), Y игнорируется, Z игнорируется  
-        // CapsuleCollider - X меняет диаметр, Y меняет высоту (фиксирует низ), Z игнорируется
-        // CharacterController - X меняет диаметр, Y меняет высоту (фиксирует низ), Z игнорируется
-        // MeshCollider - X/Y/Z при любом значении выдают предупреждение
+
+        private Vector3 GetCurrentSize() // Убираем параметр, используем сохраненный компонент
+        {
+            return colliderComponent switch
+            {
+                BoxCollider box => box.size,
+                SphereCollider sphere => new Vector3(sphere.radius * 2f, sphere.radius * 2f, sphere.radius * 2f),
+                CapsuleCollider capsule => new Vector3(capsule.radius * 2f, capsule.height, capsule.radius * 2f),
+                CharacterController character => new Vector3(character.radius * 2f, character.height, character.radius * 2f),
+                _ => Vector3.zero
+            };
+        }
+
         private Action<Vector3> CreateResizeAction(Component colliderComponent)
         {
             return colliderComponent switch
@@ -127,12 +153,89 @@ namespace Core.Behaviors.Visuals
             };
         }
 
-        public void ReceiveEvent(IEvent @event)
+        private Action<float> CreateScaleAction(Component colliderComponent)
         {
-            if (@event is IColladerChangeData changedEvent)
+            return colliderComponent switch
             {
-                resizeAction?.Invoke(changedEvent.Size);
-            }
+                BoxCollider box => scale =>
+                {
+                    // Получаем ТЕКУЩИЙ размер, а не начальный
+                    Vector3 currentSize = GetCurrentSize();
+                    Vector3 newSize = currentSize * scale;
+                    box.size = newSize;
+
+                    box.center = new Vector3(box.center.x,
+                        originalLocalBottomY + newSize.y / 2f,
+                        box.center.z);
+                }
+                ,
+
+                SphereCollider sphere => scale =>
+                {
+                    // Получаем ТЕКУЩИЙ диаметр
+                    Vector3 currentSize = GetCurrentSize();
+                    float newDiameter = currentSize.x * scale;
+                    float newRadius = newDiameter / 2f;
+                    sphere.radius = newRadius;
+
+                    sphere.center = new Vector3(sphere.center.x,
+                        originalLocalBottomY + newRadius,
+                        sphere.center.z);
+                }
+                ,
+
+                CapsuleCollider capsule => scale =>
+                {
+                    // Получаем ТЕКУЩИЕ размеры
+                    Vector3 currentSize = GetCurrentSize();
+                    float newDiameter = currentSize.x * scale;
+                    float newHeight = currentSize.y * scale;
+                    float newRadius = newDiameter / 2f;
+
+                    capsule.radius = newRadius;
+                    capsule.height = newHeight;
+
+                    capsule.center = new Vector3(capsule.center.x,
+                        originalLocalBottomY + newHeight / 2f + newRadius,
+                        capsule.center.z);
+                }
+                ,
+
+                CharacterController character => scale =>
+                {
+                    // Получаем ТЕКУЩИЕ размеры
+                    Vector3 currentSize = GetCurrentSize();
+                    float newDiameter = currentSize.x * scale;
+                    float newHeight = currentSize.y * scale;
+                    float newRadius = newDiameter / 2f;
+
+                    character.radius = newRadius;
+                    character.height = newHeight;
+
+                    character.center = new Vector3(0,
+                        originalLocalBottomY + newHeight / 2f,
+                        0);
+                }
+                ,
+
+                MeshCollider mesh => scale =>
+                {
+                    if (Mathf.Abs(scale - 1.0f) > 0.001f)
+                        Debug.LogWarning("MeshCollider cannot be scaled directly");
+                }
+                ,
+
+                _ => scale =>
+                {
+                    if (Mathf.Abs(scale - 1.0f) > 0.001f)
+                        Debug.LogWarning($"Unsupported component type: {colliderComponent.GetType().Name}");
+                }
+            };
         }
+        // BoxCollider - X меняет ширину, Y меняет высоту (фиксирует низ), Z меняет глубину
+        // SphereCollider - X меняет диаметр (фиксирует низ), Y игнорируется, Z игнорируется  
+        // CapsuleCollider - X меняет диаметр, Y меняет высоту (фиксирует низ), Z игнорируется
+        // CharacterController - X меняет диаметр, Y меняет высоту (фиксирует низ), Z игнорируется
+        // MeshCollider - X/Y/Z при любом значении выдают предупреждение
     }
 }

@@ -44,4 +44,18 @@ namespace Data.Dto
             this.health = health;
         }
     }
+    public class SizeData : IScaleChandeData, IHealthModifierData
+    {
+        private readonly int health;
+        private readonly float scale;
+
+        public int Health => health;
+        public float Scale => scale;
+
+        public SizeData(int health, float scale)
+        {
+            this.health = health;
+            this.scale = scale;
+        }
+    }
 }

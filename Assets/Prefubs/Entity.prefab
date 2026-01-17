@@ -167,6 +167,9 @@ MonoBehaviour:
   - providerSO: {fileID: 11400000, guid: f6918600df78b447a971868585178352, type: 2}
     contexts:
     - {fileID: 3234820633749024862}
+  - providerSO: {fileID: 11400000, guid: a8409f7b6ff724275a54b600546ccf0b, type: 2}
+    contexts:
+    - {fileID: 3234820633749024862}
 --- !u!1 &2590114317446140414
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +436,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5964480194069682727}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -520,7 +523,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4428847983326443821}
   m_Father: {fileID: 822643659263194017}

@@ -25,4 +25,8 @@ namespace Data.Dto
     {
         Vector3 Size { get; }
     }
+    public interface IScaleChandeData : IEvent
+    {
+        float Scale { get; }
+    }
 }

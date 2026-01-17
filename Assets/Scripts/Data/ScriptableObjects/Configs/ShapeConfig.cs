@@ -8,6 +8,7 @@ namespace Data.ScriptableObjects.Configs
     {
         [SerializeField, Tooltip("Visual representation model prefab (3D mesh)")]
         private GameObject prefab;
+        
         [SerializeField, Tooltip("Set collider size, (Set to zero to ignore)")]
         private Vector3 sizeCollider;
 
