@@ -12,5 +12,6 @@ namespace Core.Behaviors.Health
 
         /// <summary>Событие — здоровье изменилось (передаётся новое значение).</summary>
         event Action<int> OnChangeHealth;
+        event Action<int> OnChangeMaxHealth;
     }
 }

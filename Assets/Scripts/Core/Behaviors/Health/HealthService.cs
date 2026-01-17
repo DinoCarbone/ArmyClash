@@ -2,6 +2,7 @@ using System;
 using Core.Behaviors.Interaction;
 using Core.Providers;
 using Data.Dto;
+using UnityEngine;
 
 namespace Core.Behaviors.Health
 {
@@ -12,6 +13,7 @@ namespace Core.Behaviors.Health
 
         public event Action<int> OnTakeDamage;
         public event Action<int> OnChangeHealth;
+        public event Action<int> OnChangeMaxHealth;
         public event Action OnDie;
 
         public HealthService(int maxHealth)
@@ -25,6 +27,12 @@ namespace Core.Behaviors.Health
             if(@event is IDamageData damageData)
             {
                 ReceiveDamage(damageData.Damage);
+            }
+            if(@event is IHealthModifierData damageModifierData)
+            {
+                Health += damageModifierData.Health;
+                OnChangeMaxHealth?.Invoke(Health);
+                Debug.Log($"New health: {Health}");
             }
         }
         private void ReceiveDamage(int damage)

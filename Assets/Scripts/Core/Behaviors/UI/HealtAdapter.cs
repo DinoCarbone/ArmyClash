@@ -1,3 +1,4 @@
+using System;
 using Core.Behaviors.Health;
 using Zenject;
 
@@ -20,11 +21,16 @@ namespace Core.Behaviors.UI
 
             reloadingDisplay.SetMaxValue(healthProvider.MaxHealth);
             healthProvider.OnChangeHealth += OnChangeHealthHandle;
+            healthProvider.OnChangeMaxHealth += OnChangeMaxHealthHandle;
         }
 
         private void OnChangeHealthHandle(int health)
         {
             reloadingDisplay.DisplayValue(health);
+        }
+        private void OnChangeMaxHealthHandle(int health)
+        {
+            reloadingDisplay.SetMaxValue(health);
         }
 
         public void Dispose()

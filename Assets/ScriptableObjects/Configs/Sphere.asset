@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5980e2a4dd5fc4dbebd5beb581623d00, type: 3}
-  m_Name: Cube
+  m_Name: Sphere
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.ShapeConfig
-  prefab: {fileID: 5284764103720739889, guid: b962406a7f0ef4fd8b466dabeb61f956, type: 3}
+  prefab: {fileID: 5284764103720739889, guid: f9808b40afa1a4da6bf3a38d46846a6b, type: 3}
   sizeCollider: {x: 0, y: 1, z: 0}
-  increaseDamage: 10
-  increaseHealth: 100
+  increaseDamage: 20
+  increaseHealth: 50
