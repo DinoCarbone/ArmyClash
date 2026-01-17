@@ -10,7 +10,7 @@ namespace Data.ScriptableObjects.States.Attack
     public class DelayAttackBehaviorSO : BehaviorSO<DelayAttack>
     {
         [Tooltip("Delay before attack")]
-        [SerializeField] private float delay;
+        [SerializeField] private float delay = 0.5f;
         public override IState CreateConfigState(params object[] contexts)
         {
             return new DelayAttack(GetIncompatibleTypes(), delay);

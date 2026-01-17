@@ -5,7 +5,7 @@ using Data.Dto;
 
 namespace Core.Behaviors.Health
 {
-    public class HealthService : IInternalEventReceiver, IDamageProvider, IHealthService, IDeathProvider
+    public class HealthService : IInternalEventReceiver, IDamageProvider, IHealthProvider, IDeathProvider
     {
         public int Health { get; private set; }
         public int MaxHealth { get; private set; }
@@ -22,7 +22,7 @@ namespace Core.Behaviors.Health
         
         public void ReceiveEvent(IEvent @event)
         {
-            if(@event is DamageData damageData)
+            if(@event is IDamageData damageData)
             {
                 ReceiveDamage(damageData.Damage);
             }

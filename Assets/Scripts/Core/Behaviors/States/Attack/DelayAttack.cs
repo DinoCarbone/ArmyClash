@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Behaviors.Interaction;
 using Core.Services.States;
 using UnityEngine;
 using Utils;
@@ -9,7 +10,7 @@ namespace Core.Behaviors.States.Attack
     /// <summary>
     /// Реализация поведения атаки с задержкой при помощи таймера. Update вызывается извне.
     /// </summary>
-    public class DelayAttack : SimpleAttack, IUpdateState
+    public class DelayAttack : SimpleAttack, IUpdateState, IDelayAttackProvider
     {
         private readonly float delay;
         private readonly Timer timer = new Timer();
@@ -38,6 +39,7 @@ namespace Core.Behaviors.States.Attack
         }
         protected override void OnExitHandle()
         {
+            timer.Reset();
             OnBreak?.Invoke();
         }
     }

@@ -17,12 +17,11 @@ namespace Core.Behaviors.Interaction
             source = sourceTransform;
         }
 
-        /// <summary>Выпускает событие вперед от источника на указанную дистанцию и радиус.</summary>
-        public void EmitEvent(IEvent @event, float distance, float radius)
+        /// <summary>Выпускает событие вперед от источника на указанную дистанцию.</summary>
+        public void EmitEvent(IEvent @event, float distance)
         {
             Ray ray = new Ray(source.position, source.forward);
-
-            if (Physics.SphereCast(ray, radius, out RaycastHit hit, distance))
+            if (Physics.Raycast(ray, out RaycastHit hit, distance))
             {
                 hit.collider.GetComponent<IExternalEventReceiver>()?.ReceiveEvent(@event);
             }

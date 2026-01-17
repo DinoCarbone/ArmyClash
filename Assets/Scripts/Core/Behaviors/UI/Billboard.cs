@@ -11,11 +11,10 @@ namespace Core.Behaviors.UI
     public class Billboard : MonoBehaviour
     {
         private Transform cameraTransform;
-        
-        [Inject]
-        private void Construct(ICameraProvider cameraProvider)
+
+        void Awake()
         {
-            cameraTransform = Extensions.AssignWithNullCheck(cameraProvider.CameraTransform);
+            cameraTransform = Camera.main.transform;
         }
 
         private void LateUpdate()

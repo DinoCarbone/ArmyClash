@@ -11,34 +11,23 @@ namespace Core.Behaviors.Agents
     public abstract class MovementAttackAgent : IAttackProvider, IAxisMovementProvider, IAxisRotationProvider
     {
         private readonly Transform selfTransform;
-        protected abstract Transform targetTransform { get; }
+        
         private readonly float attackAngleThreshold;
         private readonly float attackDistance;
 
-        /// <summary>
-        /// Создаёт агента с ссылкой на свой трансформ и параметрами атаки.
-        /// </summary>
-        /// <param name="selfTransform">Трансформ агента.</param>
-        /// <param name="attackAngleThreshold">Порог угла для определения направления атаки.</param>
-        /// <param name="attackDistance">Дистанция, на которой возможна атака.</param>
+        protected abstract Transform targetTransform { get; }
+
+        public bool IsAttack => CalculateIsAttack();
+        public bool IsHandle => CalculateIsHandle();
+        public Vector2 Axis => CalculateMovementAxis();
+        public Quaternion Rotation => CalculateRotation();
+
         public MovementAttackAgent(Transform selfTransform, float attackAngleThreshold, float attackDistance)
         {
             this.selfTransform = Extensions.AssignWithNullCheck(selfTransform);
             this.attackAngleThreshold = attackAngleThreshold;
             this.attackDistance = attackDistance;
         }
-
-        /// <summary>Возвращает true, если в текущий момент должна происходить атака.</summary>
-        public bool IsAttack => CalculateIsAttack();
-
-        /// <summary>Возвращает true, если агент должен управляться движением (не находится в радиусе атаки).</summary>
-        public bool IsHandle => CalculateIsHandle();
-
-        /// <summary>Вектор движения для внешних потребителей (упрощённый вектор вперед/стоп).</summary>
-        public Vector2 Axis => CalculateMovementAxis();
-
-        /// <summary>Требуемая ориентация агента для движения/атаки.</summary>
-        public Quaternion Rotation => CalculateRotation();
 
         private Vector3 GetAgentPosition()
         {
@@ -65,7 +54,8 @@ namespace Core.Behaviors.Agents
         private Vector2 CalculateMovementAxis()
         {
             if (!IsHandle) return Vector2.zero;
-            return Vector2.up;
+            Vector3 target = (targetTransform.position - GetAgentPosition()).normalized;
+            return new Vector2(target.x, target.z);
         }
 
         private Quaternion CalculateRotation()

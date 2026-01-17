@@ -19,7 +19,7 @@ namespace Core.Services.DI
         private Image playerHealthBar;
 
         [SerializeField, Tooltip("Player prefab provider used to instantiate player on scene start.")]
-        private PlayerSceneProvider playerPrefub;
+        private TargetSceneProvider playerPrefub;
 
         [SerializeField, Tooltip("Transform where enemies will be spawned.")]
         private Transform enemySpawnPoint;
@@ -35,29 +35,11 @@ namespace Core.Services.DI
 
         public override void InstallBindings()
         {
-            BindValueDisplay();
-            BindPlayerViewFactory();
             BindEnemyFactory();
             BindLifecycleAndGameOver();
             LockCursor();
         }
         
-        private void BindValueDisplay()
-        {
-            Container.Bind<IValueDisplay>()
-                .To<ImageValueDisplay>()
-                .AsSingle()
-                .WithArguments(playerHealthBar)
-                .WhenInjectedInto<IHealthViewPlayerFactory>();
-        }
-
-        private void BindPlayerViewFactory()
-        {
-            Container.Bind<IHealthViewPlayerFactory>()
-                .To<HealthViewPlayerFactory>()
-                .AsSingle();
-        }
-
         private void BindEnemyFactory()
         {
             Container.Bind<IEntityFactory>()

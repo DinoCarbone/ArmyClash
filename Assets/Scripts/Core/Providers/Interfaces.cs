@@ -61,7 +61,7 @@ namespace Core.Providers
     }
 
     /// <summary>Провайдер сцены игрока, дающий доступ к Transform игрока.</summary>
-    public interface IPlayerSceneProvider
+    public interface ITargetSceneProvider
     {
         /// <summary>Трансформ игрока в сцене.</summary>
         Transform Transform { get; }
