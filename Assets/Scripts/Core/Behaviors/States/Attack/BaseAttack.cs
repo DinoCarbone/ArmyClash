@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Behaviors.Interaction;
 using Core.Providers;
 using Core.Services.States;
 using Zenject;
@@ -15,20 +16,23 @@ namespace Core.Behaviors.States.Attack
     /// <summary>
     /// Базовая реализация поведения атаки с обработкой входа/выхода.
     /// </summary>
-    public class DefautAttack : BaseAttack, IEnterState, IExitState
+    public abstract class SimpleAttack : BaseAttack, IEnterState, IExitState
     {
+        private IDamageService damageService;
         private IAttackProvider attackProvider;
 
-        public DefautAttack(List<Type> incompatibleStates) : base(incompatibleStates)
+        public SimpleAttack(List<Type> incompatibleStates) : base(incompatibleStates)
         {
         }
 
         [Inject]
-        public void Construct(IAttackProvider attackProvider)
+        public void Construct(IAttackProvider attackProvider, IDamageService damageService)
         {
+            this.damageService = damageService;
             this.attackProvider = attackProvider;
         }
-        public bool CanExit { get; private set; }
+
+        public bool CanExit { get; protected set; }
         public bool CanEnter => attackProvider.IsAttack;
 
         public event Action OnExit;
@@ -36,13 +40,23 @@ namespace Core.Behaviors.States.Attack
 
         public void Enter()
         {
-            CanExit = false;
             OnEnter?.Invoke();
+            OnEnterHandle();
         }
+
+        protected void EmitDamage()
+        {
+            damageService.EmitDamage();
+        }
+
+        protected abstract void OnEnterHandle();
+
         public void Exit()
         {
             CanExit = false;
             OnExit?.Invoke();
         }
+
+        protected abstract void OnExitHandle();
     }
 }

@@ -1,3 +1,5 @@
+using Data.Dto;
+
 namespace Core.Behaviors.Interaction
 {
 
@@ -13,13 +15,10 @@ namespace Core.Behaviors.Interaction
     {
         void ReceiveEvent(IEvent @event);
     }
-    /// <summary>Маркерный интерфейс для внутренних событий взаимодействия.</summary>
-    public interface IEvent { }
-
-    /// <summary>Событие урона — предоставляет величину урона.</summary>
-    public interface IDamageEvent
+    
+    public interface IDamageService
     {
-        int Damage { get; }
+        void EmitDamage();
     }
 
     /// <summary>Излучатель внешних событий (например, столкновений или радиусных эффектов).</summary>

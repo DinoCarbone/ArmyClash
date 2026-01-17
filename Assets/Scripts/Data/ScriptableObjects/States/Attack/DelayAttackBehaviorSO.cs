@@ -5,13 +5,15 @@ using UnityEngine;
 
 namespace Data.ScriptableObjects.States.Attack
 {
-    [CreateAssetMenu(fileName = "DefautAttack",
-     menuName = "ScriptableObjects/States/Attack/DefautAttack")]
-    public class DefautAttackBehaviorSO : BehaviorSO<DefautAttack>
+    [CreateAssetMenu(fileName = "DelayAttack",
+     menuName = "ScriptableObjects/States/Attack/DelayAttack")]
+    public class DelayAttackBehaviorSO : BehaviorSO<DelayAttack>
     {
+        [Tooltip("Delay before attack")]
+        [SerializeField] private float delay;
         public override IState CreateConfigState(params object[] contexts)
         {
-            return new DefautAttack(GetIncompatibleTypes());
+            return new DelayAttack(GetIncompatibleTypes(), delay);
         }
         /// <summary>Создаёт конфигурацию состояния атаки и возвращает базовый тип поведения.</summary>
         public override Type GetBaseBehaviorType()
