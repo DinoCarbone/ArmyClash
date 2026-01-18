@@ -29,11 +29,15 @@ namespace Core.Behaviors.Visuals
 
         private void OnModelSwithHandle(GameObject gameObject)
         {
-            Debug.Log("OnModelSwithHandle");
-            MeshRenderer newMeshRenderer = gameObject.GetComponentInChildren<MeshRenderer>();
-            if(newMeshRenderer != null)
+            
+            meshRenderer = gameObject.GetComponentInChildren<MeshRenderer>();
+            if(meshRenderer != null)
             {
-                if(material != null) newMeshRenderer.material = material;
+                if(material != null)
+                {
+                    meshRenderer.material = material;
+                    Debug.Log("OnModelSwithHandl");
+                }
                 else Debug.LogWarning("No material to apply to new model.");
             }
             else
@@ -46,8 +50,12 @@ namespace Core.Behaviors.Visuals
             if(@event is IMaterialChangeData materialChangeData)
             {
                 material = materialChangeData.Material;
-                if(meshRenderer != null) meshRenderer.material = material;
-                Debug.Log($"New material applied: {material.name}");
+                if(meshRenderer != null)
+                {
+                    meshRenderer.material = material;
+                    Debug.Log($"New material applied: {material.name}");
+                }
+                else Debug.LogWarning("No MeshRenderer found to apply material.");
             }
         }
 

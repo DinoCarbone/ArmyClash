@@ -23,7 +23,7 @@ namespace Core.Services.DI
         {
             base.Start();
             IEntityFactory entityFactory = Container.Resolve<IEntityFactory>();
-            entityFactory.Create(materialConfig, shapeConfig);
+            entityFactory.Create(shapeConfig, materialConfig, sizeConfig);
         }
     }
 }

@@ -30,9 +30,18 @@ namespace Core.Behaviors.Health
             }
             if(@event is IHealthModifierData damageModifierData)
             {
-                Health += damageModifierData.Health;
-                OnChangeMaxHealth?.Invoke(Health);
-                Debug.Log($"New health: {Health}");
+                MaxHealth += damageModifierData.Health;
+                if(MaxHealth <= 0)
+                {
+                    MaxHealth = 0;
+                    OnChangeHealth?.Invoke(0);
+                    OnDie?.Invoke();
+                    
+                    Debug.LogWarning($"Died due to negative max health: {MaxHealth}");
+                    return;
+                }
+                OnChangeMaxHealth?.Invoke(MaxHealth);
+                Debug.Log($"New max health: {MaxHealth}");
             }
         }
         private void ReceiveDamage(int damage)

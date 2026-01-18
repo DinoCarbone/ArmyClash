@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.States.Attack.DelayAttackBehaviorSO
   incompatibleStates:
   - {fileID: 11400000, guid: 96c7c794c4fbd4b11b94dd3194a007a1, type: 2}
-  delay: 1
+  speed: 10

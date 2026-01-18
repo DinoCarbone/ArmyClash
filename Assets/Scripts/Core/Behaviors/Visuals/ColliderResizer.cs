@@ -11,13 +11,14 @@ namespace Core.Behaviors.Visuals
         private readonly Action<Vector3> resizeAction;
         private readonly Action<float> scaleAction;
         private readonly float originalLocalBottomY;
-        private readonly Component colliderComponent; // Добавляем ссылку на компонент
+        private readonly Component colliderComponent;
+        private float currentScale = 1f; // Текущий масштаб
 
         public ColliderResizer(Component colliderComponent)
         {
             if (colliderComponent == null) throw new ArgumentNullException(nameof(colliderComponent));
 
-            this.colliderComponent = colliderComponent; // Сохраняем ссылку
+            this.colliderComponent = colliderComponent;
             originalLocalBottomY = CalculateLocalBottomY(colliderComponent);
 
             resizeAction = CreateResizeAction(colliderComponent);
@@ -50,7 +51,7 @@ namespace Core.Behaviors.Visuals
             };
         }
 
-        private Vector3 GetCurrentSize() // Убираем параметр, используем сохраненный компонент
+        private Vector3 GetCurrentSize()
         {
             return colliderComponent switch
             {
@@ -68,10 +69,12 @@ namespace Core.Behaviors.Visuals
             {
                 BoxCollider box => size =>
                 {
-                    Vector3 newSize = box.size;
-                    if (size.x != 0) newSize.x = size.x;
-                    if (size.y != 0) newSize.y = size.y;
-                    if (size.z != 0) newSize.z = size.z;
+                    Vector3 currentSize = GetCurrentSize();
+
+                    Vector3 newSize = currentSize;
+                    if (size.x != 0) newSize.x = size.x * currentScale;
+                    if (size.y != 0) newSize.y = size.y * currentScale;
+                    if (size.z != 0) newSize.z = size.z * currentScale;
 
                     box.size = newSize;
 
@@ -88,7 +91,8 @@ namespace Core.Behaviors.Visuals
                 {
                     if (size.x != 0)
                     {
-                        float newRadius = size.x / 2f;
+                        float newDiameter = size.x * currentScale;
+                        float newRadius = newDiameter / 2f;
                         sphere.radius = newRadius;
 
                         sphere.center = new Vector3(sphere.center.x,
@@ -105,8 +109,11 @@ namespace Core.Behaviors.Visuals
 
                     if (changedWidth || changedHeight)
                     {
-                        float newRadius = changedWidth ? size.x / 2f : capsule.radius;
-                        float newHeight = changedHeight ? size.y : capsule.height;
+                        Vector3 currentSize = GetCurrentSize();
+
+                        float newDiameter = changedWidth ? size.x * currentScale : currentSize.x;
+                        float newHeight = changedHeight ? size.y * currentScale : currentSize.y;
+                        float newRadius = newDiameter / 2f;
 
                         if (changedWidth) capsule.radius = newRadius;
                         if (changedHeight) capsule.height = newHeight;
@@ -125,8 +132,11 @@ namespace Core.Behaviors.Visuals
 
                     if (changedWidth || changedHeight)
                     {
-                        float newRadius = changedWidth ? size.x / 2f : character.radius;
-                        float newHeight = changedHeight ? size.y : character.height;
+                        Vector3 currentSize = GetCurrentSize();
+
+                        float newDiameter = changedWidth ? size.x * currentScale : currentSize.x;
+                        float newHeight = changedHeight ? size.y * currentScale : currentSize.y;
+                        float newRadius = newDiameter / 2f;
 
                         if (changedWidth) character.radius = newRadius;
                         if (changedHeight) character.height = newHeight;
@@ -159,7 +169,8 @@ namespace Core.Behaviors.Visuals
             {
                 BoxCollider box => scale =>
                 {
-                    // Получаем ТЕКУЩИЙ размер, а не начальный
+                    currentScale = scale;
+
                     Vector3 currentSize = GetCurrentSize();
                     Vector3 newSize = currentSize * scale;
                     box.size = newSize;
@@ -172,7 +183,8 @@ namespace Core.Behaviors.Visuals
 
                 SphereCollider sphere => scale =>
                 {
-                    // Получаем ТЕКУЩИЙ диаметр
+                    currentScale = scale;
+
                     Vector3 currentSize = GetCurrentSize();
                     float newDiameter = currentSize.x * scale;
                     float newRadius = newDiameter / 2f;
@@ -186,7 +198,8 @@ namespace Core.Behaviors.Visuals
 
                 CapsuleCollider capsule => scale =>
                 {
-                    // Получаем ТЕКУЩИЕ размеры
+                    currentScale = scale;
+
                     Vector3 currentSize = GetCurrentSize();
                     float newDiameter = currentSize.x * scale;
                     float newHeight = currentSize.y * scale;
@@ -203,7 +216,8 @@ namespace Core.Behaviors.Visuals
 
                 CharacterController character => scale =>
                 {
-                    // Получаем ТЕКУЩИЕ размеры
+                    currentScale = scale;
+
                     Vector3 currentSize = GetCurrentSize();
                     float newDiameter = currentSize.x * scale;
                     float newHeight = currentSize.y * scale;
