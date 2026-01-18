@@ -2,10 +2,10 @@ using Data.Dto;
 
 namespace Core.Simulation
 {
-    public class SimulationProvider : ISimulationProvider
+    public class SimulationProvider : ISimulationProvider, ISimulationEditor
     {
-        private readonly ArmyData armyA;
-        private readonly ArmyData armyB;
+        private  ArmyData armyA;
+        private  ArmyData armyB;
         public ArmyData ArmyA => armyA;
 
         public ArmyData ArmyB => armyB;
@@ -13,6 +13,16 @@ namespace Core.Simulation
         {
             this.armyA = armyA;
             this.armyB = armyB;
+        }
+
+        public void SetArmyA(ArmyData army)
+        {
+            armyA = army;
+        }
+
+        public void SetArmyB(ArmyData army)
+        {
+            armyB = army;
         }
     }
 }

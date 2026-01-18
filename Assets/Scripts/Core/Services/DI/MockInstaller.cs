@@ -17,8 +17,15 @@ namespace Core.Services.DI
         [SerializeField] private SizeConfig sizeConfig;
         [SerializeField] private MaterialConfig materialConfig;
         [SerializeField] private FormationConfig formationConfig;
+        [Header("Simulation Positions")]
+        [SerializeField] private List<BaseMultiConfig> generalConfigA;
+        [SerializeField] private List<BaseMultiConfig> generalConfigB;
         [SerializeField] private Vector3 positionArmyA;
         [SerializeField] private Vector3 positionArmyB;
+        [SerializeField] private float quaternionYTeamA;
+        [SerializeField] private float quaternionYTeamB;
+        [Header("Mock")]
+        [SerializeField] private Transform target;
 
         override public void InstallBindings()
         {
@@ -28,42 +35,20 @@ namespace Core.Services.DI
 
             Container.Bind<IEntityFactory>().To<EntityFactory>().AsSingle().WithArguments(enemyPrefub);
 
-            Container.Bind<IInitializable>().To<SimulationFacade>().AsSingle().WithArguments(positionArmyA, positionArmyB).NonLazy();
+            Container.Bind<IInitializable>().To<SimulationFacade>().AsSingle().
+            WithArguments(positionArmyA, positionArmyB, new Quaternion(0, quaternionYTeamA, 0, 1),
+             new Quaternion(0, quaternionYTeamB, 0, 1)).NonLazy();
 
             Container.Bind<IBattleController>().To<BattleController>().AsSingle();
 
             Container.Bind<IDestructionService>().To<DestructionService>().AsSingle();
-
-            Container.Bind<ISimulationProvider>().To<SimulationProvider>().FromMethod(ResolveSimulationProvider).AsSingle();
-
         }
 
-        private SimulationProvider ResolveSimulationProvider(InjectContext context)
+        private void StartDebugBehavior()
         {
-            // Создаем тестовые армии
-
-            // Армия A - 10 воинов с конфигами
-            var armyAUnits = new List<(int, List<BaseMultiConfig>)>
-        {
-            (5, new List<BaseMultiConfig> { shapeConfig, sizeConfig, materialConfig }), // 5 воинов
-            (5, new List<BaseMultiConfig> { shapeConfig, sizeConfig }) // еще 5 воинов
-        };
-
-            var armyA = new ArmyData(formationConfig, armyAUnits);
-
-            // Армия B - 8 воинов с конфигами
-            var armyBUnits = new List<(int, List<BaseMultiConfig>)>
-        {
-            (8, new List<BaseMultiConfig> {
-                shapeConfig,
-                sizeConfig,
-                materialConfig,
-            })
-        };
-
-            var armyB = new ArmyData(formationConfig, armyBUnits);
-
-            return new SimulationProvider(armyA, armyB);
+            IEntityFactory factory = Container.Resolve<IEntityFactory>();
+            var unit = factory.Create(Vector3.zero, default, null).GetComponentInChildren<EntityBase>()?.GetModel<ICombatUnit>();
+            unit?.SetTarget(target);
         }
     }
 }

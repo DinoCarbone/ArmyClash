@@ -41,4 +41,8 @@ namespace Data.Dto
     {
         float AttackSpeed { get; }
     }
+    public interface IIconChangeData : IEvent
+    {
+        Sprite Icon { get; }
+    }
 }

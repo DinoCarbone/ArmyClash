@@ -51,7 +51,6 @@ namespace Core.Behaviors.States.Attack
             {
                 speed += attackSpeedModifierData.AttackSpeed;
                 if(speed < 0f) speed = 0f;
-                Debug.Log($"New speed: {speed}");
             }
         }
     }

@@ -9,22 +9,22 @@ namespace Core.Simulation
     public class BattleController : IDisposable, IBattleController
     {
         private readonly ITickableService tickService;
+        private IEndGameService endGameService;
         private List<IUnit> armyA = new List<IUnit>();
         private List<IUnit> armyB = new List<IUnit>();
         private bool isSimulating = false;
 
-        // Трекеры состояния
         private readonly Dictionary<IUnit, IUnit> attackerToTarget = new Dictionary<IUnit, IUnit>();
         private readonly Dictionary<IUnit, int> targetAttackCount = new Dictionary<IUnit, int>();
 
-        // Настройки
         private const int MaxAttackersPerTarget = 3;
         private const float DistanceWeight = 0.7f;
         private const float BalanceWeight = 0.3f;
 
-        public BattleController(ITickableService tickService)
+        public BattleController(ITickableService tickService, IEndGameService endGameService)
         {
             this.tickService = tickService;
+            this.endGameService = endGameService;
             this.tickService.OnTick += OnTick;
         }
 
@@ -57,15 +57,12 @@ namespace Core.Simulation
 
         private void UpdateTargets()
         {
-            // 1. Очищаем текущее состояние
             attackerToTarget.Clear();
             targetAttackCount.Clear();
 
-            // 2. Распределяем цели для обеих армий
             DistributeTargets(armyA, armyB);
             DistributeTargets(armyB, armyA);
 
-            // 3. Применяем цели к юнитам
             ApplyTargetsToUnits();
         }
 
@@ -111,14 +108,12 @@ namespace Core.Simulation
 
         private float CalculateTargetScore(IUnit attacker, IUnit target)
         {
-            // 1. Расстояние (чем ближе, тем лучше)
             float distance = Vector3.Distance(
                 attacker.Transform.position,
                 target.Transform.position
             );
             float distanceScore = (1f / Math.Max(distance, 0.1f)) * DistanceWeight;
 
-            // 2. Баланс (избегаем перегруженных целей)
             int currentAttackers = targetAttackCount.ContainsKey(target) ?
                 targetAttackCount[target] : 0;
             float balanceScore = (MaxAttackersPerTarget - currentAttackers) * BalanceWeight;
@@ -133,7 +128,6 @@ namespace Core.Simulation
                 var attacker = pair.Key;
                 var target = pair.Value;
 
-                // Если юнит реализует интерфейс с SetTarget
                 if (attacker is ICombatUnit combatUnit)
                 {
                     combatUnit.SetTarget(target.Transform);
@@ -143,15 +137,40 @@ namespace Core.Simulation
 
         private void OnUnitDeath(IUnit deadUnit)
         {
-            // Удаляем из списков
             armyA.Remove(deadUnit);
             armyB.Remove(deadUnit);
 
-            // Отписываемся от события
             deadUnit.OnDeath -= OnUnitDeath;
 
-            // Немедленное перераспределение
             UpdateTargets();
+            CheckBattleEnd();
+        }
+
+        private void CheckBattleEnd()
+        {
+            if (!isSimulating) return;
+
+            if (armyA.Count == 0 && armyB.Count == 0)
+            {
+                Debug.Log("Draw");
+                StopSimulation();
+            }
+            else if (armyA.Count == 0)
+            {
+                Debug.Log("ArmyBWins");
+                StopSimulation();
+            }
+            else if (armyB.Count == 0)
+            {
+                Debug.Log("ArmyAWins");
+                StopSimulation();
+            }
+        }
+
+        private void StopSimulation()
+        {
+            isSimulating = false;
+            endGameService.EndGame();
         }
 
         public void Dispose()
@@ -161,13 +180,12 @@ namespace Core.Simulation
                 tickService.OnTick -= OnTick;
             }
 
-            // Отписываемся от всех юнитов
             foreach (var unit in armyA.Concat(armyB))
             {
                 unit.OnDeath -= OnUnitDeath;
             }
+
             isSimulating = false;
         }
-
     }
 }

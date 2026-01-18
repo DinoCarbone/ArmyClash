@@ -32,7 +32,6 @@ namespace Core.Behaviors.Agents
         private void HandleDeath()
         {
             OnDeath?.Invoke(this);
-            Debug.Log($"{nameof(EntityAgent)} has died.");
         }
 
         public void SetTarget(Transform target)
