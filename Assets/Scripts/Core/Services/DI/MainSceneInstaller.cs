@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Core.Services.DI
 {
-    public class MockInstaller : MonoInstaller
+    public class MainSceneInstaller : MonoInstaller
     {
         [Header("Prefubs"), Space(10)]
         [SerializeField] private GameObject enemyPrefub;
