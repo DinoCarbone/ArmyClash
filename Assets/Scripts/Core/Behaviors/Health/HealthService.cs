@@ -1,13 +1,18 @@
 using System;
 using Core.Behaviors.Interaction;
+using Core.Behaviors.Lifecycle;
 using Core.Providers;
 using Data.Dto;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Behaviors.Health
 {
     public class HealthService : IInternalEventReceiver, IDamageProvider, IHealthProvider, IDeathProvider
     {
+        private readonly GameObject coreObject;
+        private IDestructionService destructionService;
+
         public int Health { get; private set; }
         public int MaxHealth { get; private set; }
 
@@ -16,10 +21,17 @@ namespace Core.Behaviors.Health
         public event Action<int> OnChangeMaxHealth;
         public event Action OnDie;
 
-        public HealthService(int maxHealth)
+        public HealthService(int maxHealth, GameObject coreObject)
         {
             MaxHealth = maxHealth;
             Health = maxHealth;
+            this.coreObject = coreObject;
+        }
+
+        [Inject]
+        private void Construct(IDestructionService destructionService)
+        {
+            this.destructionService = destructionService;
         }
         
         public void ReceiveEvent(IEvent @event)
@@ -31,17 +43,18 @@ namespace Core.Behaviors.Health
             if(@event is IHealthModifierData damageModifierData)
             {
                 MaxHealth += damageModifierData.Health;
+                Health = MaxHealth;
                 if(MaxHealth <= 0)
                 {
                     MaxHealth = 0;
                     OnChangeHealth?.Invoke(0);
-                    OnDie?.Invoke();
+                    DeathEmit();
                     
                     Debug.LogWarning($"Died due to negative max health: {MaxHealth}");
                     return;
                 }
                 OnChangeMaxHealth?.Invoke(MaxHealth);
-                Debug.Log($"New max health: {MaxHealth}");
+                OnChangeHealth?.Invoke(Health);
             }
         }
         private void ReceiveDamage(int damage)
@@ -52,10 +65,15 @@ namespace Core.Behaviors.Health
             if(Health <= 0)
             {
                 Health = 0;
-                OnDie?.Invoke();
+                DeathEmit();
             }
             OnTakeDamage?.Invoke(damage);
             OnChangeHealth?.Invoke(Health);
+        }
+        private void DeathEmit()
+        {
+            OnDie?.Invoke();
+            destructionService.Destruct(coreObject);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Core.Behaviors.Agents
     /// </summary>
     public abstract class MovementAttackAgent : IAttackProvider, IAxisMovementProvider, IAxisRotationProvider
     {
-        private readonly Transform selfTransform;
+        protected readonly Transform selfTransform;
         
         private readonly float attackAngleThreshold;
         private readonly float attackDistance;
@@ -41,12 +41,14 @@ namespace Core.Behaviors.Agents
 
         private bool CalculateIsAttack()
         {
+            if(targetTransform == null) return false;
             var distance = Vector3.Distance(GetAgentPosition(), targetTransform.position);
             return distance <= attackDistance && IsLookingAtPlayer();
         }
 
         private bool CalculateIsHandle()
         {
+            if(targetTransform == null) return false;
             var distance = Vector3.Distance(GetAgentPosition(), targetTransform.position);
             return distance > attackDistance;
         }
@@ -60,6 +62,8 @@ namespace Core.Behaviors.Agents
 
         private Quaternion CalculateRotation()
         {
+            if(targetTransform == null) return default;
+                
             var direction = (targetTransform.position - GetAgentPosition()).normalized;
             if (direction == Vector3.zero) return GetAgentRotation();
 

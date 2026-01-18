@@ -34,7 +34,6 @@ namespace Core.Behaviors.Visuals
 
             if (@event is IScaleChandeData scaleChandeData)
             {
-                Debug.Log($"New scale collider: {scaleChandeData.Scale}");
                 scaleAction?.Invoke(scaleChandeData.Scale);
             }
         }
