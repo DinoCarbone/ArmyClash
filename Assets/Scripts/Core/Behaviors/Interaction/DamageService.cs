@@ -2,7 +2,6 @@ using Zenject;
 using Utils;
 using Data.Dto;
 using System;
-using UnityEngine;
 
 namespace Core.Behaviors.Interaction
 {

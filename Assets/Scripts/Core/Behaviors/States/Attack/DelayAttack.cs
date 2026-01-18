@@ -13,7 +13,7 @@ namespace Core.Behaviors.States.Attack
     /// </summary>
     public class DelayAttack : SimpleAttack, IUpdateState, IDelayAttackProvider, IInternalEventReceiver
     {
-        private const float delayDuration = 10f;
+        private const float delayDuration = 1f;
         private float speed;
         private readonly Timer timer = new Timer();
 

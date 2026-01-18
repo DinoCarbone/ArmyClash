@@ -17,7 +17,6 @@ namespace Core.Behaviors.Interaction
         void ReceiveEvent(IEvent @event);
     }
     
-     /// <summary>Интерфейс для оповещения об атаке.</summary>
     public interface IAttackNotifier
     {
         event Action OnAttack;
