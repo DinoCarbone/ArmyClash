@@ -13,7 +13,7 @@ namespace Core.Behaviors.States.Attack
     /// </summary>
     public class DelayAttack : SimpleAttack, IUpdateState, IDelayAttackProvider, IInternalEventReceiver
     {
-        private const float delayDuration = 10f;
+        private const float delayDuration = 1f;
         private float speed;
         private readonly Timer timer = new Timer();
 
@@ -51,7 +51,6 @@ namespace Core.Behaviors.States.Attack
             {
                 speed += attackSpeedModifierData.AttackSpeed;
                 if(speed < 0f) speed = 0f;
-                Debug.Log($"New speed: {speed}");
             }
         }
     }

@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.Behaviors.Entities.EntityBase
   priorityBehaviorsSO: {fileID: 11400000, guid: 74d28c971c81f45be9b1bdecb1c85243, type: 2}
   entityDatas:
-  - behaviorSO: {fileID: 11400000, guid: d125287a3266c458ca18846b49ef3bd5, type: 2}
+  - behaviorSO: {fileID: 11400000, guid: 3269ec19f0aab4265a519b8c78563cd9, type: 2}
     contexts:
     - {fileID: 3041217471819474833}
     isDefaultState: 0
@@ -129,7 +129,7 @@ MonoBehaviour:
     contexts:
     - {fileID: 3041217471819474833}
     isDefaultState: 0
-  - behaviorSO: {fileID: 11400000, guid: 3269ec19f0aab4265a519b8c78563cd9, type: 2}
+  - behaviorSO: {fileID: 11400000, guid: d125287a3266c458ca18846b49ef3bd5, type: 2}
     contexts:
     - {fileID: 3041217471819474833}
     isDefaultState: 0
@@ -173,6 +173,9 @@ MonoBehaviour:
   - providerSO: {fileID: 11400000, guid: 710658943e2184bdbb121764bc034198, type: 2}
     contexts:
     - {fileID: 5303373059615582120}
+  - providerSO: {fileID: 11400000, guid: a5af4d55ade0d41c7ada83023876db68, type: 2}
+    contexts:
+    - {fileID: 2843115418576631789}
 --- !u!1 &2590114317446140414
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,8 +215,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.7}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 1.66}
+  m_SizeDelta: {x: 90, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7055567081621146882
 Canvas:
@@ -357,7 +360,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 822643659263194017}
-  - component: {fileID: 2395757308864013645}
+  - component: {fileID: 3126285747163264700}
   m_Layer: 0
   m_Name: Entity
   m_TagString: Untagged
@@ -385,7 +388,7 @@ Transform:
   - {fileID: 6115976576179826289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &2395757308864013645
+--- !u!143 &3126285747163264700
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -406,7 +409,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.5
   m_SlopeLimit: 0
-  m_StepOffset: 0.01
+  m_StepOffset: 0.1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.5, z: 0}

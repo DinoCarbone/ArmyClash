@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Blue
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.MaterialConfig
   valueConfigs:
-  - value: -15
+  - value: -5
     config: {fileID: 11400000, guid: 6a40d0db2ad154435bf62a4a76b008ca, type: 2}
-  - value: 4
+  - value: 2
     config: {fileID: 11400000, guid: ea5804026e95e44008690400dccda0f4, type: 2}
-  - value: 10
+  - value: 3
     config: {fileID: 11400000, guid: 0fab5d5757690490ab51ef3848856650, type: 2}
   material: {fileID: 2100000, guid: 517d95eb54c3e43f8b32e5df0c8c2cdc, type: 2}

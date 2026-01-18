@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1a6cac34d22944ea085f7f065531a06d
+guid: 575afedc78ad34fa88d85d7302f278a5
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -136,23 +136,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cross_0
+      name: Cross
       rect:
         serializedVersion: 2
-        x: 20
-        y: 22
-        width: 982
-        height: 980
+        x: 7
+        y: 37
+        width: 241
+        height: 224
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e59f94b011e6b4518b87093b34beb761
-      internalID: 436210548
+      spriteID: 1b1a76bfbd9e34982876c4f9a7cbb361
+      internalID: 1094449542
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 51c9d2a15e7ae485794810154b416f13
     internalID: 0
     vertices: []
     indices: 
@@ -171,7 +171,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Cross_0: 436210548
+      Cross: 1094449542
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -23,4 +23,9 @@ namespace Core.Simulation
         ArmyData ArmyA { get; }
         ArmyData ArmyB { get; }
     }
+    public interface ISimulationEditor
+    {
+        void SetArmyA(ArmyData army);
+        void SetArmyB(ArmyData army);
+    }
 }

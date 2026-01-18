@@ -17,9 +17,9 @@ namespace Core.Behaviors.Entities
             this.container = container;
         }
 
-        public GameObject Create(Vector3 position, params BaseMultiConfig[] configs)
+        public GameObject Create(Vector3 position, Quaternion quaternion, params BaseMultiConfig[] configs)
         {
-            GameObject entity = container.InstantiatePrefab(entityPrefub, position, Quaternion.identity, null);
+            GameObject entity = container.InstantiatePrefab(entityPrefub, position, quaternion, null);
             IExternalEventReceiver receiver = entity.GetComponentInChildren<IExternalEventReceiver>();
 
             if (receiver != null)
@@ -47,6 +47,6 @@ namespace Core.Behaviors.Entities
     }
     public interface IEntityFactory
     {
-        GameObject Create(Vector3 position, params BaseMultiConfig[] configs);
+        GameObject Create(Vector3 position, Quaternion quaternion, params BaseMultiConfig[] configs);
     }
 }

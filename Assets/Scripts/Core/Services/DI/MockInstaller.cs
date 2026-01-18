@@ -1,10 +1,6 @@
-using System.Collections.Generic;
 using Core.Behaviors.Entities;
 using Core.Behaviors.Lifecycle;
 using Core.Simulation;
-using Data.Dto;
-using Data.ScriptableObjects.Configs;
-using Data.ScriptableObjects.Configs.Formation;
 using UnityEngine;
 using Zenject;
 
@@ -12,58 +8,56 @@ namespace Core.Services.DI
 {
     public class MockInstaller : MonoInstaller
     {
+        [Header("Prefubs"), Space(10)]
         [SerializeField] private GameObject enemyPrefub;
-        [SerializeField] private ShapeConfig shapeConfig;
-        [SerializeField] private SizeConfig sizeConfig;
-        [SerializeField] private MaterialConfig materialConfig;
-        [SerializeField] private FormationConfig formationConfig;
+        [Header("Positions"), Space(10)]
         [SerializeField] private Vector3 positionArmyA;
         [SerializeField] private Vector3 positionArmyB;
+        [SerializeField] private float quaternionYTeamA;
+        [SerializeField] private float quaternionYTeamB;
 
-        override public void InstallBindings()
+        public override void InstallBindings()
         {
-            Container.BindInterfacesTo<TickableService>().AsSingle();
-
-            Container.Bind<IHybridInjectService>().To<HybridInjectService>().AsSingle();
-
-            Container.Bind<IEntityFactory>().To<EntityFactory>().AsSingle().WithArguments(enemyPrefub);
-
-            Container.Bind<IInitializable>().To<SimulationFacade>().AsSingle().WithArguments(positionArmyA, positionArmyB).NonLazy();
-
-            Container.Bind<IBattleController>().To<BattleController>().AsSingle();
-
-            Container.Bind<IDestructionService>().To<DestructionService>().AsSingle();
-
-            Container.Bind<ISimulationProvider>().To<SimulationProvider>().FromMethod(ResolveSimulationProvider).AsSingle();
-
+            BindTickableService();
+            BindHybridInjectService();
+            BindEntityFactory();
+            BindSimulationFacade();
+            BindBattleController();
+            BindDestructionService();
         }
 
-        private SimulationProvider ResolveSimulationProvider(InjectContext context)
+        private void BindTickableService()
         {
-            // Создаем тестовые армии
+            Container.BindInterfacesTo<TickableService>().AsSingle();
+        }
 
-            // Армия A - 10 воинов с конфигами
-            var armyAUnits = new List<(int, List<BaseMultiConfig>)>
+        private void BindHybridInjectService()
         {
-            (5, new List<BaseMultiConfig> { shapeConfig, sizeConfig, materialConfig }), // 5 воинов
-            (5, new List<BaseMultiConfig> { shapeConfig, sizeConfig }) // еще 5 воинов
-        };
+            Container.Bind<IHybridInjectService>().To<HybridInjectService>().AsSingle();
+        }
 
-            var armyA = new ArmyData(formationConfig, armyAUnits);
-
-            // Армия B - 8 воинов с конфигами
-            var armyBUnits = new List<(int, List<BaseMultiConfig>)>
+        private void BindEntityFactory()
         {
-            (8, new List<BaseMultiConfig> {
-                shapeConfig,
-                sizeConfig,
-                materialConfig,
-            })
-        };
+            Container.Bind<IEntityFactory>().To<EntityFactory>().AsSingle().WithArguments(enemyPrefub);
+        }
 
-            var armyB = new ArmyData(formationConfig, armyBUnits);
+        private void BindSimulationFacade()
+        {
+            Quaternion rotationA = new Quaternion(0, quaternionYTeamA, 0, 1);
+            Quaternion rotationB = new Quaternion(0, quaternionYTeamB, 0, 1);
 
-            return new SimulationProvider(armyA, armyB);
+            Container.Bind<IInitializable>().To<SimulationFacade>().AsSingle()
+                .WithArguments(positionArmyA, positionArmyB, rotationA, rotationB).NonLazy();
+        }
+
+        private void BindBattleController()
+        {
+            Container.Bind<IBattleController>().To<BattleController>().AsSingle();
+        }
+
+        private void BindDestructionService()
+        {
+            Container.Bind<IDestructionService>().To<DestructionService>().AsSingle();
         }
     }
 }

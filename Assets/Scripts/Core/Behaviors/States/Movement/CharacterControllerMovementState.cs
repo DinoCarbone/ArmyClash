@@ -9,7 +9,6 @@ namespace Core.Behaviors.States.Movement
     /// </summary>
     public class CharacterControllerMovementState : BaseAxisMovement
     {
-        private const float MagnitudeThreshold = 0.1f;
         protected CharacterController controller;
 
         public CharacterControllerMovementState(CharacterController controller, List<Type> incompatibleStates,
@@ -21,12 +20,9 @@ namespace Core.Behaviors.States.Movement
         protected override void OnMove(Vector2 axis)
         {
             var move = new Vector3(axis.x, 0, axis.y);
-
-            if (move.magnitude > MagnitudeThreshold)
-            {
-                move.Normalize();
-                controller.Move(move * speed * Time.deltaTime);
-            }
+            move.Normalize();
+            controller.Move(move * speed * Time.deltaTime);
+            controller.transform.position = new Vector3(controller.transform.position.x, 0, controller.transform.position.z);
         }
     }
 }
