@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5980e2a4dd5fc4dbebd5beb581623d00, type: 3}
   m_Name: Cube
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.ShapeConfig
+  valueConfigs:
+  - value: 100
+    config: {fileID: 11400000, guid: 6d9d0d34ea5754d6e8558ba8451a1997, type: 2}
+  - value: 10
+    config: {fileID: 11400000, guid: 6a40d0db2ad154435bf62a4a76b008ca, type: 2}
   prefab: {fileID: 5284764103720739889, guid: b962406a7f0ef4fd8b466dabeb61f956, type: 3}
   sizeCollider: {x: 0, y: 1, z: 0}
-  increaseDamage: 10
-  increaseHealth: 100

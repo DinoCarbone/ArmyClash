@@ -13,49 +13,91 @@ namespace Data.Dto
             this.damage = damage;
         }
     }
-    public class MockColladerChangedData : IColladerChangeData
-    {
-        public Vector3 Size { get; private set; }
 
-        public MockColladerChangedData(Vector3 size)
+    public class DamageModifierData : IDamageModifierData
+    {
+        private readonly int damage;
+
+        public int Damage => damage;
+
+        public DamageModifierData(int damage)
         {
-            Size = size;
+            this.damage = damage;
         }
     }
-    public class ShapeData : IModelChangeData, IColladerChangeData, IDamageModifierData, IHealthModifierData
+
+    public class ShapeData : IModelChangeData, IColladerChangeData
     {
         private readonly GameObject prefub;
         private readonly Vector3 size;
-        private readonly int health;
-        private readonly int damage;
 
         public GameObject Prefub => prefub;
         public Vector3 Size => size;
 
-        public int Damage => damage;
-
-        public int Health => health;
-
-        public ShapeData(GameObject prefub, Vector3 size, int damage, int health)
+        public ShapeData(GameObject prefub, Vector3 size)
         {
             this.prefub = prefub;
             this.size = size;
-            this.damage = damage;
+        }
+    }
+
+    public class HealthModifierData : IHealthModifierData
+    {
+        private readonly int health;
+
+        public int Health => health;
+
+        public HealthModifierData(int health)
+        {
             this.health = health;
         }
     }
-    public class SizeData : IScaleChandeData, IHealthModifierData
+
+    public class SpeedModifierData : ISpeedModifierData
     {
-        private readonly int health;
+        private readonly float speed;
+
+        public float Speed => speed;
+
+        public SpeedModifierData(float speed)
+        {
+            this.speed = speed;
+        }
+    }
+
+    public class AttackSpeedModifierData : IAttackSpeedModifierData
+    {
+        private readonly float attackSpeed;
+
+        public float AttackSpeed => attackSpeed;
+
+        public AttackSpeedModifierData(float attackSpeed)
+        {
+            this.attackSpeed = attackSpeed;
+        }
+    }
+
+    public class SizeData : IScaleChandeData
+    {
         private readonly float scale;
 
-        public int Health => health;
         public float Scale => scale;
 
-        public SizeData(int health, float scale)
+        public SizeData(float scale)
         {
-            this.health = health;
             this.scale = scale;
+        }
+    }
+    
+    public class MaterialData : IMaterialChangeData
+    {
+        private readonly Material material;
+
+        public Material Material => material;
+
+        public MaterialData(Material material)
+        {
+            this.material = material;
         }
     }
 }

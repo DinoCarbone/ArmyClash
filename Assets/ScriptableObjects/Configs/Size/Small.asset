@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bda0f244e4504c3bb7d1d9cee9696a2, type: 3}
   m_Name: Small
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.SizeConfig
-  changeHealth: -50
+  valueConfigs:
+  - value: -50
+    config: {fileID: 11400000, guid: 6d9d0d34ea5754d6e8558ba8451a1997, type: 2}
   normalizeScale: 0.8

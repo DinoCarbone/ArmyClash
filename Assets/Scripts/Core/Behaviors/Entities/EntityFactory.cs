@@ -1,4 +1,5 @@
 using Core.Behaviors.Interaction;
+using Data.Dto;
 using Data.ScriptableObjects.Configs;
 using UnityEngine;
 using Zenject;
@@ -16,7 +17,7 @@ namespace Core.Behaviors.Entities
             this.container = container;
         }
 
-        public void Create(params BaseEventConfigSO[] configs)
+        public void Create(params BaseMultiConfig[] configs)
         {
             GameObject entity = container.InstantiatePrefab(entityPrefub);
             IExternalEventReceiver receiver = entity.GetComponentInChildren<IExternalEventReceiver>();
@@ -29,7 +30,10 @@ namespace Core.Behaviors.Entities
                     {
                         if (config != null)
                         {
-                            receiver.ReceiveEvent(config.GetConfig());
+                            foreach (IEvent @event in config.GetConfigs())
+                            {
+                                if(@event != null) receiver.ReceiveEvent(@event);
+                            }
                         }
                     }
                 }
@@ -42,6 +46,6 @@ namespace Core.Behaviors.Entities
     }
     public interface IEntityFactory
     {
-        void Create(params BaseEventConfigSO[] configs);
+        void Create(params BaseMultiConfig[] configs);
     }
 }

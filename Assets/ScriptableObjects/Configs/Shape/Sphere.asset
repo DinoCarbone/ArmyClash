@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5980e2a4dd5fc4dbebd5beb581623d00, type: 3}
   m_Name: Sphere
   m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.ShapeConfig
+  valueConfigs:
+  - value: 50
+    config: {fileID: 11400000, guid: 6d9d0d34ea5754d6e8558ba8451a1997, type: 2}
+  - value: 20
+    config: {fileID: 11400000, guid: 6a40d0db2ad154435bf62a4a76b008ca, type: 2}
   prefab: {fileID: 5284764103720739889, guid: f9808b40afa1a4da6bf3a38d46846a6b, type: 3}
   sizeCollider: {x: 0, y: 1, z: 0}
-  increaseDamage: 20
-  increaseHealth: 50

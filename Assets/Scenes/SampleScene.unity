@@ -501,8 +501,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.Services.DI.MockInstaller
   targetSceneProvider: {fileID: 562953614}
   enemyPrefub: {fileID: 3041217471819474833, guid: 36376268b78e746e3ba92a93fce7f71b, type: 3}
-  shapeConfig: {fileID: 11400000, guid: b503c729b892c4ad481e3d2c942cbf58, type: 2}
-  sizeConfig: {fileID: 11400000, guid: e42f569a27a904ac09ee48a89b89b9a0, type: 2}
+  shapeConfig: {fileID: 11400000, guid: d4e353bdec8a349269cef3d14a7b5985, type: 2}
+  sizeConfig: {fileID: 11400000, guid: 350460a4a520e45449acb524da474d62, type: 2}
+  materialConfig: {fileID: 11400000, guid: 3ad7cc5c6773b4d28ad3b91bdfd7cc63, type: 2}
 --- !u!1 &1918745175
 GameObject:
   m_ObjectHideFlags: 0

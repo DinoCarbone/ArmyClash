@@ -170,6 +170,9 @@ MonoBehaviour:
   - providerSO: {fileID: 11400000, guid: a8409f7b6ff724275a54b600546ccf0b, type: 2}
     contexts:
     - {fileID: 3234820633749024862}
+  - providerSO: {fileID: 11400000, guid: 710658943e2184bdbb121764bc034198, type: 2}
+    contexts:
+    - {fileID: 3074338987942026766}
 --- !u!1 &2590114317446140414
 GameObject:
   m_ObjectHideFlags: 0

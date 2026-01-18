@@ -12,6 +12,7 @@ namespace Core.Services.DI
         [SerializeField] private GameObject enemyPrefub;
         [SerializeField] private ShapeConfig shapeConfig;
         [SerializeField] private SizeConfig sizeConfig;
+        [SerializeField] private MaterialConfig materialConfig;
         override public void InstallBindings()
         {
             Container.Bind<ITargetSceneProvider>().To<TargetSceneProvider>().FromInstance(targetSceneProvider).AsSingle();
@@ -22,7 +23,7 @@ namespace Core.Services.DI
         {
             base.Start();
             IEntityFactory entityFactory = Container.Resolve<IEntityFactory>();
-            entityFactory.Create(shapeConfig, sizeConfig);
+            entityFactory.Create(materialConfig, shapeConfig);
         }
     }
 }

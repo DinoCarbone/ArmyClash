@@ -29,4 +29,16 @@ namespace Data.Dto
     {
         float Scale { get; }
     }
+    public interface IMaterialChangeData : IEvent
+    {
+        Material Material { get; }
+    }
+    public interface ISpeedModifierData : IEvent
+    {
+        float Speed { get; }
+    }
+    public interface IAttackSpeedModifierData : IEvent
+    {
+        float AttackSpeed { get; }
+    }
 }

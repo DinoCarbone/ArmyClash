@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Data.ScriptableObjects.Configs
 {
-    public abstract class BaseEventConfigSO : ScriptableObject
+    public abstract class BaseEventConfig : ScriptableObject
     {
-        public abstract IEvent GetConfig();
+        public abstract IEvent GetConfig(int value);
     }
 }

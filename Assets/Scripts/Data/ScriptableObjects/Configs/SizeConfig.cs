@@ -1,19 +1,20 @@
+using System.Collections.Generic;
 using Data.Dto;
 using UnityEngine;
 
 namespace Data.ScriptableObjects.Configs
 {
     [CreateAssetMenu(fileName = "SizeConfig", menuName = "ScriptableObjects/Configs/Size")]
-    public class SizeConfig : BaseEventConfigSO
+    public class SizeConfig : BaseMultiConfig
     {
-        [SerializeField, Tooltip("Health bonus applied to the unit")]
-        private int changeHealth;
         [SerializeField, Tooltip("Size view")]
         private float normalizeScale;
 
-        public override IEvent GetConfig()
+        public override List<IEvent> GetConfigs()
         {
-            return new SizeData(changeHealth, normalizeScale);
+            List<IEvent> configs = GetConfigsInternal();
+            configs.Add(new SizeData(normalizeScale));
+            return configs;
         }
     }
 }

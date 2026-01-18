@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace Core.Behaviors.Visuals
 {
-    public class ModelSwitcher : IInternalEventReceiver, IProvider
+    public class ModelSwitcher : IInternalEventReceiver, IProvider, IModelSwitchNotifyer
     {
         private readonly Transform parentModel;
+
+        public event System.Action<GameObject> OnModelSwitch;
 
         public ModelSwitcher(Transform parentModel)
         {
@@ -30,6 +32,8 @@ namespace Core.Behaviors.Visuals
 
             GameObject model = Object.Instantiate(prefub, parentModel);
             model.transform.localPosition = Vector3.zero; // на всякий случай :3
+
+            OnModelSwitch?.Invoke(model);
         }
     }
 }
