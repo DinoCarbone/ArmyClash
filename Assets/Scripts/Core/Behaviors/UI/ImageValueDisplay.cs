@@ -11,15 +11,9 @@ namespace Core.Behaviors.UI
     {
         private readonly Image fillImage;
         private int maxValue = 100;
-
-        /// <summary>
-        /// Создаёт инстанс отображения и настраивает полосу заполнения.
-        /// </summary>
-        /// <param name="fillImage">Image, используемый как полоска заполнения.</param>
         public ImageValueDisplay(Image fillImage)
         {
             this.fillImage = Extensions.AssignWithNullCheck(fillImage);
-            this.fillImage.fillMethod = Image.FillMethod.Horizontal;
             this.fillImage.fillAmount = 1f;
         }
 

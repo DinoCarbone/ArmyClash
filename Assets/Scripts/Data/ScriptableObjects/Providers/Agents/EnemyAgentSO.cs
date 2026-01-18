@@ -33,7 +33,7 @@ namespace Data.ScriptableObjects.Providers.Agents
             if (transform == null)
                 throw new Exception($"EnemyAgentSO: Transform is empty");
 
-            return new EnemyAgent(transform, attackAngleThreshold, attackDistance);
+            return new MockAgent(transform, attackAngleThreshold, attackDistance);
         }
 
         public override ContextRequirement[] GetContextRequirements()

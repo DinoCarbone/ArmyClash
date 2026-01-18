@@ -18,7 +18,7 @@ namespace Core.Behaviors.States.Attack
     /// </summary>
     public abstract class SimpleAttack : BaseAttack, IEnterState, IExitState
     {
-        private IDamageService damageService;
+        private IDamageEmitService damageService;
         private IAttackProvider attackProvider;
 
         public SimpleAttack(List<Type> incompatibleStates) : base(incompatibleStates)
@@ -26,7 +26,7 @@ namespace Core.Behaviors.States.Attack
         }
 
         [Inject]
-        public void Construct(IAttackProvider attackProvider, IDamageService damageService)
+        public void Construct(IAttackProvider attackProvider, IDamageEmitService damageService)
         {
             this.damageService = damageService;
             this.attackProvider = attackProvider;
@@ -53,6 +53,7 @@ namespace Core.Behaviors.States.Attack
 
         public void Exit()
         {
+            OnExitHandle();
             CanExit = false;
             OnExit?.Invoke();
         }

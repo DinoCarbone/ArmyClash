@@ -2,16 +2,18 @@ using System;
 using Core.Behaviors.Interaction;
 using Core.Providers;
 using Data.Dto;
+using UnityEngine;
 
 namespace Core.Behaviors.Health
 {
-    public class HealthService : IInternalEventReceiver, IDamageProvider, IHealthService, IDeathProvider
+    public class HealthService : IInternalEventReceiver, IDamageProvider, IHealthProvider, IDeathProvider
     {
         public int Health { get; private set; }
         public int MaxHealth { get; private set; }
 
         public event Action<int> OnTakeDamage;
         public event Action<int> OnChangeHealth;
+        public event Action<int> OnChangeMaxHealth;
         public event Action OnDie;
 
         public HealthService(int maxHealth)
@@ -22,9 +24,24 @@ namespace Core.Behaviors.Health
         
         public void ReceiveEvent(IEvent @event)
         {
-            if(@event is DamageData damageData)
+            if(@event is IDamageData damageData)
             {
                 ReceiveDamage(damageData.Damage);
+            }
+            if(@event is IHealthModifierData damageModifierData)
+            {
+                MaxHealth += damageModifierData.Health;
+                if(MaxHealth <= 0)
+                {
+                    MaxHealth = 0;
+                    OnChangeHealth?.Invoke(0);
+                    OnDie?.Invoke();
+                    
+                    Debug.LogWarning($"Died due to negative max health: {MaxHealth}");
+                    return;
+                }
+                OnChangeMaxHealth?.Invoke(MaxHealth);
+                Debug.Log($"New max health: {MaxHealth}");
             }
         }
         private void ReceiveDamage(int damage)

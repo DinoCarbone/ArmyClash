@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ba2dcf5ba03478a84d56fa17457999, type: 3}
+  m_Name: Blue
+  m_EditorClassIdentifier: Assembly-CSharp::Data.ScriptableObjects.Configs.MaterialConfig
+  valueConfigs:
+  - value: -15
+    config: {fileID: 11400000, guid: 6a40d0db2ad154435bf62a4a76b008ca, type: 2}
+  - value: 4
+    config: {fileID: 11400000, guid: ea5804026e95e44008690400dccda0f4, type: 2}
+  - value: 10
+    config: {fileID: 11400000, guid: 0fab5d5757690490ab51ef3848856650, type: 2}
+  material: {fileID: 2100000, guid: 517d95eb54c3e43f8b32e5df0c8c2cdc, type: 2}

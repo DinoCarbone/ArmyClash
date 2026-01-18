@@ -1,3 +1,4 @@
+using System;
 using Data.Dto;
 
 namespace Core.Behaviors.Interaction
@@ -16,7 +17,19 @@ namespace Core.Behaviors.Interaction
         void ReceiveEvent(IEvent @event);
     }
     
-    public interface IDamageService
+     /// <summary>Интерфейс для оповещения об атаке.</summary>
+    public interface IAttackNotifier
+    {
+        event Action OnAttack;
+    }
+
+    public interface IDelayAttackProvider
+    {
+        event Action<float> OnUpdateProgress;
+        event Action OnBreak;
+    }
+
+    public interface IDamageEmitService
     {
         void EmitDamage();
     }
@@ -24,7 +37,7 @@ namespace Core.Behaviors.Interaction
     /// <summary>Излучатель внешних событий (например, столкновений или радиусных эффектов).</summary>
     public interface IExternalEventEmitter
     {
-        void EmitEvent(IEvent @event, float distance, float radius);
+        void EmitEvent(IEvent @event, float distance);
     }
 
     /// <summary>Получатель внешних событий.</summary>

@@ -9,23 +9,20 @@ namespace Core.Behaviors.States.Movement
     /// </summary>
     public class CharacterControllerMovementState : BaseAxisMovement
     {
-        protected float speed = 5f;
+        private const float MagnitudeThreshold = 0.1f;
         protected CharacterController controller;
 
-        public CharacterControllerMovementState(CharacterController controller, List<Type> incompatibleStates, float startSpeed = 5f) : base(incompatibleStates)
+        public CharacterControllerMovementState(CharacterController controller, List<Type> incompatibleStates,
+        float startSpeed) : base(incompatibleStates, startSpeed)
         {
-            speed = startSpeed;
             this.controller = Utils.Extensions.AssignWithNullCheck(controller);
         }
 
         protected override void OnMove(Vector2 axis)
         {
-            Vector3 move = controller.transform.forward * axis.y +
-                           controller.transform.right * axis.x;
+            var move = new Vector3(axis.x, 0, axis.y);
 
-            move.y = 0;
-
-            if (move.magnitude > 0.1f)
+            if (move.magnitude > MagnitudeThreshold)
             {
                 move.Normalize();
                 controller.Move(move * speed * Time.deltaTime);

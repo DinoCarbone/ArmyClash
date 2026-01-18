@@ -1,21 +1,23 @@
 using Zenject;
 using Utils;
 using Data.Dto;
+using System;
+using UnityEngine;
 
 namespace Core.Behaviors.Interaction
 {
-    public class DamageService : IDamageService, Providers.IProvider
+    public class DamageService : IDamageEmitService, IAttackNotifier, Providers.IProvider, IInternalEventReceiver
     {
-        private readonly float radius = 1;
-        private readonly int damage = 1;
+        private int damage = 1;
         private readonly float distance = 100;
         private IExternalEventEmitter externalEventEmitter;
 
-        public DamageService(int damage, float distance, float radius)
+        public event Action OnAttack;
+
+        public DamageService(int damage, float distance)
         {
             this.damage = damage;
             this.distance = distance;
-            this.radius = radius;
         }
 
         [Inject]
@@ -26,7 +28,18 @@ namespace Core.Behaviors.Interaction
 
         public void EmitDamage()
         {
-            externalEventEmitter.EmitEvent(new DamageData(damage), distance, radius);
+            externalEventEmitter.EmitEvent(new DamageData(damage), distance);
+            OnAttack?.Invoke();
+        }
+
+        public void ReceiveEvent(IEvent @event)
+        {
+            if (@event is IDamageModifierData damageModifierData)
+            {
+                damage += damageModifierData.Damage;
+                if(damage < 0) damage = 0;
+                Debug.Log($"New damage: {damage}");
+            }
         }
     }
 }

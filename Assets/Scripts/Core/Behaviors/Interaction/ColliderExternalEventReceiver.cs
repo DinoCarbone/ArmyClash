@@ -15,7 +15,6 @@ namespace Core.Behaviors.Interaction
         {
             this.internalEventReceiverService = Extensions.AssignWithNullCheck(internalEventReceiverService);
         }
-
         /// <summary>
         /// Перенаправляет полученное внешнее событие в локальный сервис получения внутренних событий.
         /// </summary>
