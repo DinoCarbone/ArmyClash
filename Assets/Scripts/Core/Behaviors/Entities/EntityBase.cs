@@ -139,5 +139,19 @@ namespace Core.Behaviors.Entities
         {
             stateMachine.Update();
         }
+
+        public T GetModel<T>() where T : class
+        {
+            if (entityStates != null)
+                foreach (var state in entityStates)
+                    if (state is T t) return t;
+
+            if (providers != null)
+                foreach (var provider in providers)
+                    if (provider is T t) return t;
+
+            return null;
+        }
+
     }
 }

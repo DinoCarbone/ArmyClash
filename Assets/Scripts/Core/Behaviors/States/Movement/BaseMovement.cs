@@ -62,7 +62,6 @@ namespace Core.Behaviors.States.Movement
             {
                 speed += speedModifierData.Speed;
                 if(speed < 0) speed = 0;
-                Debug.Log($"New speed: {speed}");
             }
         }
     }

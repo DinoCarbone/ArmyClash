@@ -17,9 +17,9 @@ namespace Core.Behaviors.Entities
             this.container = container;
         }
 
-        public void Create(params BaseMultiConfig[] configs)
+        public GameObject Create(Vector3 position, params BaseMultiConfig[] configs)
         {
-            GameObject entity = container.InstantiatePrefab(entityPrefub);
+            GameObject entity = container.InstantiatePrefab(entityPrefub, position, Quaternion.identity, null);
             IExternalEventReceiver receiver = entity.GetComponentInChildren<IExternalEventReceiver>();
 
             if (receiver != null)
@@ -42,10 +42,11 @@ namespace Core.Behaviors.Entities
             {
                 Debug.LogError("Receiver not found");
             }
+            return entity;
         }
     }
     public interface IEntityFactory
     {
-        void Create(params BaseMultiConfig[] configs);
+        GameObject Create(Vector3 position, params BaseMultiConfig[] configs);
     }
 }

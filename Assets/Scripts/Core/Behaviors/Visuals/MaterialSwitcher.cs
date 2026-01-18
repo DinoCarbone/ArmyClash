@@ -36,7 +36,6 @@ namespace Core.Behaviors.Visuals
                 if(material != null)
                 {
                     meshRenderer.material = material;
-                    Debug.Log("OnModelSwithHandl");
                 }
                 else Debug.LogWarning("No material to apply to new model.");
             }
@@ -53,7 +52,6 @@ namespace Core.Behaviors.Visuals
                 if(meshRenderer != null)
                 {
                     meshRenderer.material = material;
-                    Debug.Log($"New material applied: {material.name}");
                 }
                 else Debug.LogWarning("No MeshRenderer found to apply material.");
             }

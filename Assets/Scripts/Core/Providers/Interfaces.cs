@@ -60,13 +60,6 @@ namespace Core.Providers
         Camera MainCamera { get; }
     }
 
-    /// <summary>Провайдер сцены игрока, дающий доступ к Transform игрока.</summary>
-    public interface ITargetSceneProvider
-    {
-        /// <summary>Трансформ игрока в сцене.</summary>
-        Transform Transform { get; }
-    }
-
     /// <summary>Точка в сцене, на которую следует смотреть (камера игрока).</summary>
     public interface IPlayerCameraPoint
     {

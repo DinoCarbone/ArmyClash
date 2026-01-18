@@ -30,6 +30,7 @@ namespace Core.Behaviors.Animations
 
         public void Dispose()
         {
+            animation.StopAnimation();
             attackNotifier.OnAttack -= OnAttackHandle;
         }
     }

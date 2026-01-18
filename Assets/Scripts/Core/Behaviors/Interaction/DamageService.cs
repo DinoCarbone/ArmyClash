@@ -38,7 +38,6 @@ namespace Core.Behaviors.Interaction
             {
                 damage += damageModifierData.Damage;
                 if(damage < 0) damage = 0;
-                Debug.Log($"New damage: {damage}");
             }
         }
     }

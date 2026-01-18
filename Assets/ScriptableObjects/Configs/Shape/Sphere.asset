@@ -18,4 +18,4 @@ MonoBehaviour:
   - value: 20
     config: {fileID: 11400000, guid: 6a40d0db2ad154435bf62a4a76b008ca, type: 2}
   prefab: {fileID: 5284764103720739889, guid: f9808b40afa1a4da6bf3a38d46846a6b, type: 3}
-  sizeCollider: {x: 0, y: 1, z: 0}
+  sizeCollider: {x: 0, y: 0, z: 0}

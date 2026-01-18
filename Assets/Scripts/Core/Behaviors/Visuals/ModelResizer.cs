@@ -20,7 +20,6 @@ namespace Core.Behaviors.Visuals
             {
                 transform.localScale = new Vector3(scaleChandeData.Scale, scaleChandeData.Scale, scaleChandeData.Scale);
                 // предполагается, что родитель всегда изначально в Vector3.One
-                Debug.Log($"New scale model: {scaleChandeData.Scale}");
             }
         }
     }
